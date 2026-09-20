@@ -612,14 +612,14 @@ export default function HomeRoute() {
         </header>
 
         <main id="home" className="hero-content">
-          <div className="trust-pill">
+          {/* <div className="trust-pill">
             <span className="trust-avatars">
               <i>J</i>
               <i>A</i>
               <i>K</i>
             </span>
             <span>Trusted by 1M+ Users</span>
-          </div>
+          </div> */}
           <h1>
             Control your money.
             <br />
