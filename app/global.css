@@ -516,7 +516,7 @@ a:focus-visible {
 .product-stage {
   position: relative;
   width: min(803px, 78vw);
-  height: 555px;
+  /* height: 555px; */
   margin-top: 64px;
 }
 .laptop-wrap {
@@ -527,6 +527,9 @@ a:focus-visible {
   top: 0;
   transform: perspective(1000px) rotateX(1deg);
   filter: drop-shadow(0 24px 26px rgba(0, 0, 0, 0.22));
+}
+.virtual-card--desktop {
+  display: block;
 }
 .laptop-screen {
   height: 433px;
@@ -725,11 +728,23 @@ a:focus-visible {
   border: 6px solid #1d2524;
   border-radius: 28px;
   background: #f5faf8;
-  box-shadow:
+  /* box-shadow:
     0 21px 28px rgba(0, 0, 0, 0.3),
-    inset 0 0 0 1px #68716d;
+    inset 0 0 0 1px #68716d; */
   transform: rotate(-7deg);
   overflow: hidden;
+}
+.phone-wrap--mobile {
+  display: none;
+  position: absolute;
+  left: 50%;
+  right: auto;
+  top: 10px;
+  width: 205px;
+  height: 522px;
+  transform: translateX(-50%) rotate(0deg);
+  /* border-radius: 28px;
+  box-shadow: 0 21px 28px rgba(0, 0, 0, 0.3); */
 }
 .phone-notch {
   position: absolute;
@@ -1033,6 +1048,17 @@ a:focus-visible {
     right: 6%;
   }
 }
+@media (max-width: 720px) {
+  .laptop-wrap,
+  .phone-wrap:not(.phone-wrap--mobile),
+  .virtual-card {
+    display: none;
+  }
+
+  .phone-wrap--mobile {
+    display: block;
+  }
+}
 @media (max-width: 520px) {
   .rapidus-page {
     min-height: 760px;
@@ -1041,7 +1067,7 @@ a:focus-visible {
     display: none;
   }
   .hero-content {
-    padding-top: 55px;
+    padding-top: 10px;
   }
   .trust-pill {
     height: 38px;
@@ -1085,6 +1111,10 @@ a:focus-visible {
   }
   .phone-wrap {
     right: -13%;
+  }
+  .phone-wrap--mobile {
+    width: 150%;
+    height: 150%;
   }
   .virtual-card {
     left: -105px;
@@ -2605,12 +2635,14 @@ a:focus-visible {
   object-position: top left;
 }
 .phone-wrap {
-  height: 522px;
+  /* height: 522px; */
+  height: 150%;
+  width: 150%;
   padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
-  box-shadow: 0 21px 28px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 21px 28px rgba(0, 0, 0, 0.3); */
 }
 .phone-wrap .hero-phone-image {
   object-position: top center;

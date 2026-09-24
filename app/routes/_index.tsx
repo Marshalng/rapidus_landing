@@ -62,10 +62,21 @@ function PhonePreview() {
     </div>
   );
 }
+function PhonePreviewMobile() {
+  return (
+    <div className="phone-wrap phone-wrap--mobile" aria-hidden="true">
+      <img
+        className="hero-device-image hero-phone-image"
+        src="iPhone.png?format=webp&width=800&height=1200"
+        alt=""
+      />
+    </div>
+  );
+}
 
 function VirtualCard() {
   return (
-    <div className="virtual-card" aria-hidden="true">
+    <div className="virtual-card virtual-card--desktop" aria-hidden="true">
       <div className="card-head">
         <span>
           <RapidusMark /> Rapidus
@@ -640,6 +651,7 @@ export default function HomeRoute() {
           <div className="product-stage">
             <LaptopPreview />
             <PhonePreview />
+            <PhonePreviewMobile />
             <VirtualCard />
           </div>
         </main>
