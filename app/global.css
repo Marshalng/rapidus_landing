@@ -1138,11 +1138,13 @@ a:focus-visible {
   overflow: hidden;
   background: #fff;
   color: #0e4a4f;
+  isolation: isolate;
 }
 .currency-copy {
   position: absolute;
   top: 174px;
   left: 50%;
+  z-index: 1;
   display: flex;
   width: min(503px, calc(100% - 40px));
   flex-direction: column;
@@ -1196,6 +1198,7 @@ a:focus-visible {
 }
 .currency-pill {
   position: absolute;
+  z-index: 2;
   display: flex;
   width: 120px;
   height: 64px;
@@ -1248,23 +1251,33 @@ a:focus-visible {
     width: min(417px, calc(100% - 24px));
     margin-top: 20px;
   }
+  .currency-pill {
+    width: clamp(92px, 18vw, 120px);
+    height: clamp(52px, 8vw, 64px);
+    padding: 10px 24px;
+  }
+  .currency-pill span {
+    width: clamp(28px, 6vw, 40px);
+    height: clamp(28px, 6vw, 40px);
+    font-size: clamp(22px, 5vw, 30px);
+  }
   .currency-pill--us {
     top: 70px;
-    left: 8%;
+    left: 7%;
   }
   .currency-pill--italy {
     top: 70px;
     left: auto;
-    right: 8%;
+    right: 7%;
   }
   .currency-pill--eu {
     top: auto;
     bottom: 70px;
-    left: 8%;
+    left: 7%;
   }
   .currency-pill--uk {
     top: auto;
-    right: 8%;
+    right: 7%;
     bottom: 70px;
   }
 }
@@ -1272,6 +1285,7 @@ a:focus-visible {
 @media (max-width: 520px) {
   .currency-section {
     height: 620px;
+    overflow: visible;
   }
   .currency-copy {
     top: 145px;
@@ -1285,22 +1299,34 @@ a:focus-visible {
     line-height: 21px;
   }
   .currency-pill {
-    width: 88px;
-    height: 48px;
-    padding: 8px 24px;
+    width: clamp(70px, 20vw, 82px);
+    height: clamp(38px, 9vw, 46px);
+    padding: 8px 18px;
   }
   .currency-pill span {
-    width: 32px;
-    height: 32px;
-    font-size: 24px;
+    width: clamp(22px, 7vw, 28px);
+    height: clamp(22px, 7vw, 28px);
+    font-size: clamp(16px, 5vw, 22px);
   }
   .currency-pill--us,
   .currency-pill--italy {
     top: 56px;
+    left: 12px;
+    right: auto;
+  }
+  .currency-pill--italy {
+    left: auto;
+    right: 12px;
   }
   .currency-pill--eu,
   .currency-pill--uk {
     bottom: 54px;
+    left: 12px;
+    right: auto;
+  }
+  .currency-pill--uk {
+    left: auto;
+    right: 12px;
   }
 }
 
@@ -1899,7 +1925,25 @@ a:focus-visible {
     transform-origin: bottom center;
   }
   .wallet-visual {
-    bottom: -44px;
+    width: min(100%, 330px);
+    height: auto;
+    right: auto;
+    bottom: -26px;
+    left: 50%;
+    padding: 20px 14px 0;
+    transform: translateX(-50%);
+  }
+  .wallet-row {
+    width: 100%;
+    max-width: 286px;
+    height: auto;
+    margin-bottom: 14px;
+    padding: 12px 14px;
+  }
+  .wallet-row:nth-child(2),
+  .wallet-row:nth-child(3),
+  .wallet-row:nth-child(4) {
+    margin-left: 0;
   }
   .exchange-visual {
     right: 20px;
@@ -2643,6 +2687,10 @@ a:focus-visible {
   border-radius: 0;
   background: transparent;
   /* box-shadow: 0 21px 28px rgba(0, 0, 0, 0.3); */
+}
+.phone-wrap:not(.phone-wrap--mobile) {
+  height: 522px;
+  width: 205px;
 }
 .phone-wrap .hero-phone-image {
   object-position: top center;
