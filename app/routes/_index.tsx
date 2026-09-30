@@ -44,7 +44,7 @@ function LaptopPreview() {
     <div className="laptop-wrap" aria-hidden="true">
       <img
         className="hero-device-image hero-laptop-image"
-        src="https://cdn.builder.io/api/v1/image/assets%2F53ff79212f8d4a1d97ff868a53c29353%2Fa313f3d228d84a28b7c08b69ff384a34?format=webp&width=800&height=1200"
+        src="ZenBook Duo 14.png?format=webp&width=800&height=1200"
         alt=""
       />
     </div>
@@ -56,7 +56,7 @@ function PhonePreview() {
     <div className="phone-wrap" aria-hidden="true">
       <img
         className="hero-device-image hero-phone-image"
-        src="https://cdn.builder.io/api/v1/image/assets%2F53ff79212f8d4a1d97ff868a53c29353%2F1193139fbfdb47509320c8e38f986d50?format=webp&width=800&height=1200"
+        src="iPhone.png?format=webp&width=800&height=1200"
         alt=""
       />
     </div>

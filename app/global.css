@@ -355,7 +355,7 @@ body {
   display: flex;
   align-items: center;
   gap: clamp(24px, 3.3vw, 48px);
-  margin-left: 8%;
+  /* margin-left: 8%; */
 }
 .rapidus-links a,
 .signin {
@@ -524,7 +524,7 @@ a:focus-visible {
   width: 724px;
   max-width: 90%;
   left: 0;
-  top: 0;
+  top: 33px;
   transform: perspective(1000px) rotateX(1deg);
   filter: drop-shadow(0 24px 26px rgba(0, 0, 0, 0.22));
 }
@@ -884,7 +884,7 @@ a:focus-visible {
 .virtual-card {
   position: absolute;
   z-index: 3;
-  top: 110px;
+  top: 246px;
   left: -79px;
   width: 240px;
   height: 137px;
@@ -2693,7 +2693,7 @@ a:focus-visible {
   width: 205px;
 }
 .phone-wrap .hero-phone-image {
-  object-position: top center;
+  /* object-position: top center; */
 }
 
 .rapidus-footer {
