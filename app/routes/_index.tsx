@@ -428,7 +428,7 @@ function FeatureVisual({
 
   if (type === "topup") {
     return (
-      <div className="feature-visual routing-visual">
+      <div className="feature-visual routing-visual topup-visual">
         <h4>Automatic top-up</h4>
         <div className="routing-row">
           <span>▤</span>

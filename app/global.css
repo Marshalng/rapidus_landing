@@ -2205,6 +2205,33 @@ a:focus-visible {
   .routing-visual {
     bottom: -225px;
   }
+  .topup-visual {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    width: auto;
+    height: 250px;
+    padding: 20px 14px;
+    transform: none;
+  }
+  .topup-visual h4 {
+    margin-bottom: 18px;
+  }
+  .topup-visual .routing-row {
+    gap: 7px;
+    padding: 12px;
+  }
+  .topup-visual .routing-row b {
+    min-width: 0;
+  }
+  .topup-visual .routing-row small {
+    line-height: 1.3;
+  }
+  .topup-visual .routing-row em {
+    flex-shrink: 0;
+    padding-inline: 6px;
+    font-size: 9px;
+  }
   .feature-card-stack--front {
     transform: translateX(-41%) scale(0.82);
   }
