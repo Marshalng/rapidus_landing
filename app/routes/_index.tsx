@@ -720,6 +720,58 @@ function DownloadSection() {
   );
 }
 
+function ContactSection() {
+  return (
+    <section
+      id="contact"
+      className="contact-section"
+      aria-labelledby="contact-title"
+    >
+      <div className="contact-container">
+        <div className="contact-heading">
+          <h2 id="contact-title">Contact Us</h2>
+          <p>
+            Questions about your account or a payment? Send our team a message.
+          </p>
+        </div>
+        <form
+          className="contact-form"
+          onSubmit={(event) => event.preventDefault()}
+          aria-describedby="contact-status"
+        >
+          <div className="contact-form-row">
+            <label className="contact-field">
+              <span>Name</span>
+              <input type="text" name="name" autoComplete="name" required />
+            </label>
+            <label className="contact-field">
+              <span>Email</span>
+              <input
+                type="email"
+                name="email"
+                autoComplete="email"
+                required
+              />
+            </label>
+          </div>
+          <label className="contact-field">
+            <span>Message</span>
+            <textarea name="message" rows={5} required />
+          </label>
+          <div className="contact-form-actions">
+            <button className="contact-submit" type="submit" disabled>
+              Send Message <span aria-hidden="true">→</span>
+            </button>
+            <p id="contact-status" role="status">
+              Message delivery isn’t connected yet.
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+}
+
 function RapidusFooter() {
   const footerLinks = [
     ["Home", "#home"],
@@ -728,6 +780,7 @@ function RapidusFooter() {
     ["Services", "#services"],
     ["Resources", "#resources"],
     ["Security", "#security"],
+    ["Contact Us", "#contact"],
     ["FAQs", "#faq"],
   ];
   const socialLinks = [
@@ -1035,6 +1088,7 @@ export default function HomeRoute() {
       <SecuritySection />
       <HowItWorksSection />
       <DownloadSection />
+      <ContactSection />
       <RapidusFooter />
     </>
   );
