@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { fetchExchangeRates, type ExchangeRates } from "../lib/exchange-rates";
+
 const APP_TITLE = "Rapidus";
 
 export function meta() {
@@ -113,7 +116,7 @@ const featureCards = [
     icon: "⇄",
     title: "Real-Time Currency Exchange",
     description:
-      "Convert money instantly at live market rates with full visibility before you confirm any trade.",
+      "Preview indicative currency conversions using the latest published reference rates.",
     visual: "exchange",
   },
   {
@@ -153,6 +156,156 @@ const featureCards = [
   },
 ] as const;
 
+function CurrencyCalculator() {
+  const [rates, setRates] = useState<ExchangeRates | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
+  const [amount, setAmount] = useState("100");
+  const [fromCurrency, setFromCurrency] = useState("EUR");
+  const [toCurrency, setToCurrency] = useState("GBP");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
+    setHasError(false);
+
+    fetchExchangeRates(controller.signal)
+      .then(setRates)
+      .catch(() => {
+        if (!controller.signal.aborted) setHasError(true);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
+  }, [attempt]);
+
+  const amountValue = Number(amount);
+  const rate =
+    rates && rates.rates[fromCurrency] && rates.rates[toCurrency]
+      ? rates.rates[toCurrency] / rates.rates[fromCurrency]
+      : null;
+  const converted =
+    rate !== null &&
+    amount.trim() !== "" &&
+    Number.isFinite(amountValue) &&
+    amountValue >= 0
+      ? amountValue * rate
+      : null;
+  const updatedAt = rates
+    ? new Intl.DateTimeFormat("en", {
+        dateStyle: "medium",
+        timeStyle: "short",
+        timeZone: "UTC",
+      }).format(new Date(rates.lastUpdatedUtc))
+    : null;
+
+  const formatCurrency = (value: number, currency: string) =>
+    new Intl.NumberFormat("en", {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 2,
+    }).format(value);
+
+  return (
+    <div className="feature-visual exchange-visual">
+      <div className="calculator-heading">
+        <h4>Currency Calculator</h4>
+        <button
+          className="calculator-refresh"
+          type="button"
+          onClick={() => setAttempt((current) => current + 1)}
+          disabled={loading}
+          aria-label="Refresh exchange rates"
+        >
+          ↻
+        </button>
+      </div>
+      <div className="calculator-fields">
+        <label className="calculator-field">
+          <span>Amount</span>
+          <div className="calculator-control">
+            <input
+              type="number"
+              min="0"
+              step="any"
+              inputMode="decimal"
+              value={amount}
+              onChange={(event) => setAmount(event.target.value)}
+              aria-label="Amount to convert"
+            />
+            <select
+              value={fromCurrency}
+              onChange={(event) => setFromCurrency(event.target.value)}
+              aria-label="Convert from currency"
+              disabled={!rates}
+            >
+              {Object.keys(rates?.rates ?? { EUR: 1, GBP: 1 })
+                .sort()
+                .map((currency) => (
+                  <option key={currency} value={currency}>
+                    {currency}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </label>
+        <span className="calculator-swap" aria-hidden="true">
+          ⇄
+        </span>
+        <label className="calculator-field">
+          <span>You receive</span>
+          <div className="calculator-control">
+            <output aria-live="polite">
+              {converted === null
+                ? "—"
+                : formatCurrency(converted, toCurrency)}
+            </output>
+            <select
+              value={toCurrency}
+              onChange={(event) => setToCurrency(event.target.value)}
+              aria-label="Convert to currency"
+              disabled={!rates}
+            >
+              {Object.keys(rates?.rates ?? { EUR: 1, GBP: 1 })
+                .sort()
+                .map((currency) => (
+                  <option key={currency} value={currency}>
+                    {currency}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </label>
+      </div>
+      {loading ? (
+        <div className="calculator-status" role="status">
+          Loading reference rates…
+        </div>
+      ) : hasError ? (
+        <div className="calculator-status calculator-error" role="alert">
+          Rates are unavailable. Check your connection and retry.
+          <button type="button" onClick={() => setAttempt((current) => current + 1)}>
+            Retry
+          </button>
+        </div>
+      ) : rates && rate !== null ? (
+        <div className="calculator-rate">
+          <strong>
+            1 {fromCurrency} = {rate.toFixed(4)} {toCurrency}
+          </strong>
+          <span>Updated {updatedAt} UTC</span>
+        </div>
+      ) : null}
+      <div className="calculator-attribution">
+        Indicative reference rate · <a href="https://open.er-api.com/v6/latest/USD" target="_blank" rel="noreferrer">ExchangeRate-API</a>
+      </div>
+    </div>
+  );
+}
+
 function FeatureVisual({
   type,
 }: {
@@ -183,27 +336,7 @@ function FeatureVisual({
   }
 
   if (type === "exchange") {
-    return (
-      <div className="feature-visual exchange-visual">
-        <div className="exchange-tabs">
-          <b>Direct Exchange</b>
-          <b>P2P Exchange</b>
-        </div>
-        <div className="exchange-panel">
-          <div>
-            <small>You send</small>
-            <strong>0.00</strong>
-            <span>🇪🇺 EUR⌄</span>
-          </div>
-          <i>⇅</i>
-          <div>
-            <small>You receive</small>
-            <strong>0.00</strong>
-            <span>🇺🇸 USD⌄</span>
-          </div>
-        </div>
-      </div>
-    );
+    return <CurrencyCalculator />;
   }
 
   if (type === "p2p") {
