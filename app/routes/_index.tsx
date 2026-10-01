@@ -486,7 +486,7 @@ function FeatureVisual({
   }
 
   return (
-    <div className="feature-visual routing-visual">
+    <div className="feature-visual routing-visual smart-routing-visual">
       <h4>Linked Wallets</h4>
       {["🇺🇸 USD", "🇬🇧 GBP", "🇪🇺 EUR", "🇳🇬 NGN", "🇬🇭 GHS"].map(
         (wallet, index) => (

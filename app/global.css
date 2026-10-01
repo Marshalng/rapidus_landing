@@ -2232,6 +2232,36 @@ a:focus-visible {
     padding-inline: 6px;
     font-size: 9px;
   }
+  .smart-routing-visual {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    width: auto;
+    height: 360px;
+    padding: 18px 12px;
+    transform: none;
+  }
+  .smart-routing-visual h4 {
+    margin-bottom: 12px;
+  }
+  .smart-routing-visual .routing-row {
+    gap: 7px;
+    height: 50px;
+    margin-top: 7px;
+    padding: 9px 10px;
+  }
+  .smart-routing-visual .routing-row b {
+    min-width: 0;
+    font-size: 13px;
+  }
+  .smart-routing-visual .routing-row small {
+    line-height: 1.2;
+  }
+  .smart-routing-visual .routing-row em {
+    flex-shrink: 0;
+    padding: 4px 6px;
+    font-size: 9px;
+  }
   .feature-card-stack--front {
     transform: translateX(-41%) scale(0.82);
   }
