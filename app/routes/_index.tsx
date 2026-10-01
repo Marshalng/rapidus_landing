@@ -719,6 +719,8 @@ function RapidusFooter() {
     ["Home", "#home"],
     ["Features", "#features"],
     ["Benefits", "#benefits"],
+    ["Services", "#services"],
+    ["Resources", "#resources"],
     ["FAQs", "#faq"],
   ];
   const socialLinks = [
@@ -807,6 +809,63 @@ function FeatureSection() {
   );
 }
 
+function ServicesSection() {
+  return (
+    <section
+      id="services"
+      className="listing-section services-section"
+      aria-labelledby="services-title"
+    >
+      <div className="listing-container">
+        <h2 id="services-title">Services</h2>
+        <div className="listing-grid listing-grid--services">
+          <article className="listing-card">
+            <span className="listing-number" aria-hidden="true">01</span>
+            <h3>Money transfers</h3>
+            <p>Send money locally or internationally with real-time tracking.</p>
+          </article>
+          <article className="listing-card">
+            <span className="listing-number" aria-hidden="true">02</span>
+            <h3>Multi-currency cards</h3>
+            <p>Spend abroad and withdraw cash with virtual or physical cards, wherever supported.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ResourcesSection() {
+  return (
+    <section
+      id="resources"
+      className="listing-section resources-section"
+      aria-labelledby="resources-title"
+    >
+      <div className="listing-container">
+        <h2 id="resources-title">Resources</h2>
+        <div className="listing-grid listing-grid--resources">
+          <article className="listing-card">
+            <span className="listing-number" aria-hidden="true">01</span>
+            <h3>Fraud detection</h3>
+            <p>Monitoring and suspicious-activity alerts help protect accounts and payments.</p>
+          </article>
+          <article className="listing-card">
+            <span className="listing-number" aria-hidden="true">02</span>
+            <h3>AML checks</h3>
+            <p>Identity and transaction screening supports safer payments.</p>
+          </article>
+          <article className="listing-card">
+            <span className="listing-number" aria-hidden="true">03</span>
+            <h3>Dispute resolution</h3>
+            <p>Find support for reporting and tracking a payment issue.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function HomeRoute() {
   return (
     <>
@@ -822,6 +881,8 @@ export default function HomeRoute() {
             </a>
             <a href="#features">Features</a>
             <a href="#benefits">Benefits</a>
+            <a href="#services">Services</a>
+            <a href="#resources">Resources</a>
             <a href="#faq">FAQ</a>
           </nav>
           <div className="rapidus-nav-actions">
@@ -904,6 +965,8 @@ export default function HomeRoute() {
         </div>
       </section>
       <FeatureSection />
+      <ServicesSection />
+      <ResourcesSection />
       <HowItWorksSection />
       <DownloadSection />
       <RapidusFooter />
