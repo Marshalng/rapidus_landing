@@ -1010,19 +1010,6 @@ export default function HomeRoute() {
           <a className="rapidus-logo" href="/" aria-label="Rapidus home">
             <RapidusLogo />
           </a>
-          <button
-            ref={menuButtonRef}
-            className="rapidus-nav-toggle"
-            type="button"
-            aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
-            aria-expanded={isMenuOpen}
-            aria-controls="rapidus-navigation"
-            onClick={() => setIsMenuOpen((open) => !open)}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
           <nav
             id="rapidus-navigation"
             className="rapidus-links"
@@ -1047,6 +1034,24 @@ export default function HomeRoute() {
               </a>
             ))}
           </nav>
+          <div className="rapidus-nav-actions">
+            <a className="button button-light" href="#get-started">
+              Get Started <ArrowCircle />
+            </a>
+          </div>
+          <button
+            ref={menuButtonRef}
+            className="rapidus-nav-toggle"
+            type="button"
+            aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={isMenuOpen}
+            aria-controls="rapidus-navigation"
+            onClick={() => setIsMenuOpen((open) => !open)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </header>
 
         <main id="home" className="hero-content">
