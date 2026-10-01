@@ -104,6 +104,12 @@ const featureCards = [
     visual: "wallets",
   },
   {
+    icon: "↻",
+    title: "Smart Top-up",
+    description: "Automated bank linking for easy funding.",
+    visual: "topup",
+  },
+  {
     icon: "⇄",
     title: "Real-Time Currency Exchange",
     description:
@@ -281,6 +287,30 @@ function FeatureVisual({
     );
   }
 
+  if (type === "topup") {
+    return (
+      <div className="feature-visual routing-visual">
+        <h4>Automatic top-up</h4>
+        <div className="routing-row">
+          <span>▤</span>
+          <b>
+            Linked bank account
+            <small>Automatic funding source</small>
+          </b>
+          <em>Connected</em>
+        </div>
+        <div className="routing-row">
+          <span>↻</span>
+          <b>
+            Smart top-up
+            <small>Enabled</small>
+          </b>
+          <em>Active</em>
+        </div>
+      </div>
+    );
+  }
+
   if (type === "investments") {
     return (
       <div className="feature-visual investment-visual">
@@ -339,6 +369,10 @@ const howItWorksSteps = [
   [
     "Create Your Account",
     "Set up your profile in minutes with a simple sign up process and instant account access.",
+  ],
+  [
+    "Enable Two-Factor Authentication",
+    "Two-factor authentication is required before you can continue.",
   ],
   [
     "Verify your identity",

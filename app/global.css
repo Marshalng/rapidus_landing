@@ -2376,7 +2376,7 @@ a:focus-visible {
 .how-timeline {
   position: relative;
   width: 412px;
-  height: 628px;
+  height: 690px;
   padding-left: 44px;
   box-sizing: border-box;
 }
@@ -2393,7 +2393,7 @@ a:focus-visible {
   display: flex;
   gap: 20px;
   min-height: 75px;
-  margin-bottom: 48px;
+  margin-bottom: 38px;
 }
 .how-step > span {
   position: relative;
