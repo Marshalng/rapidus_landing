@@ -114,8 +114,8 @@ const featureCards = [
     icon: "⇄",
     title: "Peer-to-Peer Currency Exchange",
     description:
-      "Choose your desired exchange rates and trade with other users directly.",
-    visual: "exchange",
+      "List buy or sell offers at your own rate and trade directly with other users.",
+    visual: "p2p",
   },
   {
     icon: "♜",
@@ -196,6 +196,39 @@ function FeatureVisual({
             <span>🇺🇸 USD⌄</span>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (type === "p2p") {
+    return (
+      <div className="feature-visual p2p-visual" aria-hidden="true">
+        <div className="p2p-directions">
+          <b>Buy</b>
+          <span>Sell</span>
+        </div>
+        <div className="p2p-currency-pair">
+          <span>🇺🇸 USD</span>
+          <i>⇄</i>
+          <span>🇳🇬 NGN</span>
+        </div>
+        <div className="p2p-offer">
+          <div className="p2p-offer-heading">
+            <strong>test1</strong>
+            <b>Buy</b>
+          </div>
+          <p>Rate: 1 USD = 1,200 NGN</p>
+          <div className="p2p-offer-divider" />
+          <div className="p2p-offer-detail">
+            <span>Available</span>
+            <strong>₦4,800,000</strong>
+          </div>
+          <div className="p2p-offer-detail">
+            <span>Total</span>
+            <strong>₦4,800,000</strong>
+          </div>
+        </div>
+        <div className="p2p-create-offer">+</div>
       </div>
     );
   }

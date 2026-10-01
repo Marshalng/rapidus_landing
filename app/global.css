@@ -1570,6 +1570,120 @@ a:focus-visible {
   font-style: normal;
   transform: translate(-50%, -50%) rotate(90deg);
 }
+.p2p-visual {
+  height: 358px;
+  padding: 18px 22px 22px;
+  box-sizing: border-box;
+  border-radius: 20px 20px 0 0;
+  background: #fff;
+}
+.p2p-directions {
+  display: flex;
+  width: 164px;
+  height: 46px;
+  padding: 4px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: #f0f2f5;
+}
+.p2p-directions > * {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  border-radius: 999px;
+  color: #475367;
+  font-size: 13px;
+  font-weight: 500;
+}
+.p2p-directions b {
+  color: #fff;
+  background: #00aa93;
+}
+.p2p-currency-pair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0;
+}
+.p2p-currency-pair span {
+  padding: 8px 13px;
+  border: 1px solid #e1e4e8;
+  border-radius: 999px;
+  color: #333;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+}
+.p2p-currency-pair i {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid #e1e4e8;
+  border-radius: 50%;
+  color: #667185;
+  font-size: 18px;
+  font-style: normal;
+}
+.p2p-offer {
+  padding: 15px 16px;
+  border-radius: 16px;
+  background: #f7f9fc;
+}
+.p2p-offer-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #171717;
+  font-size: 15px;
+}
+.p2p-offer-heading > b {
+  padding: 6px 15px;
+  border-radius: 999px;
+  color: #fff;
+  background: #005046;
+  font-size: 12px;
+}
+.p2p-offer > p {
+  margin: 5px 0 12px;
+  color: #667185;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.p2p-offer-divider {
+  height: 1px;
+  margin-bottom: 10px;
+  background: #e1e4e8;
+}
+.p2p-offer-detail {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #667185;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.p2p-offer-detail strong {
+  color: #171717;
+  font-size: 13px;
+  font-weight: 600;
+}
+.p2p-create-offer {
+  position: absolute;
+  right: 20px;
+  bottom: 16px;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #005046;
+  box-shadow: 0 5px 14px rgba(0, 80, 70, 0.2);
+  font-size: 25px;
+  line-height: 1;
+}
 .transfer-visual {
   background: radial-gradient(
     circle at 50% 50%,
@@ -1948,6 +2062,24 @@ a:focus-visible {
   .exchange-visual {
     right: 20px;
     left: 20px;
+  }
+  .p2p-visual {
+    height: 340px;
+    padding: 16px 14px 20px;
+    transform: none;
+  }
+  .p2p-currency-pair {
+    gap: 7px;
+  }
+  .p2p-currency-pair span {
+    padding-inline: 10px;
+    font-size: 12px;
+  }
+  .p2p-offer {
+    padding: 14px 13px;
+  }
+  .p2p-offer-detail strong {
+    font-size: 12px;
   }
   .transfer-card {
     left: 10px;
