@@ -111,6 +111,13 @@ const featureCards = [
     visual: "exchange",
   },
   {
+    icon: "⇄",
+    title: "Peer-to-Peer Currency Exchange",
+    description:
+      "Choose your desired exchange rates and trade with other users directly.",
+    visual: "exchange",
+  },
+  {
     icon: "♜",
     title: "Secure transfers",
     description:
