@@ -126,9 +126,9 @@ const featureCards = [
   },
   {
     icon: "▤",
-    title: "Virtual Cards",
+    title: "Virtual & Physical Cards",
     description:
-      "Create and manage virtual cards for online payments with spending limits and instant freeze controls.",
+      "Choose virtual or physical cards to spend internationally and withdraw cash wherever supported.",
     visual: "cards",
   },
   {
@@ -258,6 +258,7 @@ function FeatureVisual({
   if (type === "cards") {
     return (
       <div className="feature-visual cards-visual">
+        <span className="cards-physical-label">Physical card</span>
         <div className="feature-card-stack feature-card-stack--back" />
         <div className="feature-card-stack feature-card-stack--mid" />
         <div className="feature-card-stack feature-card-stack--front">
@@ -271,6 +272,10 @@ function FeatureVisual({
             <u />
             <u />
           </strong>
+        </div>
+        <div className="cards-capabilities">
+          <span>International spending</span>
+          <span>Cash withdrawals</span>
         </div>
       </div>
     );

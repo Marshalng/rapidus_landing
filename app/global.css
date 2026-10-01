@@ -1788,6 +1788,20 @@ a:focus-visible {
   background: #003f6b;
   transform: translateX(-36%) rotate(-8deg);
 }
+.cards-physical-label {
+  position: absolute;
+  z-index: 1;
+  top: 20px;
+  left: 50%;
+  padding: 7px 11px;
+  border: 1px solid #d9e2e0;
+  border-radius: 999px;
+  color: #005046;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  transform: translateX(-50%);
+}
 .feature-card-stack--front {
   top: 68px;
   padding: 20px;
@@ -1867,6 +1881,25 @@ a:focus-visible {
   margin-left: -8px;
   background: #f79e1b;
   mix-blend-mode: screen;
+}
+.cards-capabilities {
+  position: absolute;
+  right: 20px;
+  bottom: 14px;
+  left: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.cards-capabilities span {
+  padding: 8px 12px;
+  border: 1px solid #d9e2e0;
+  border-radius: 999px;
+  color: #005046;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
 }
 .investment-visual {
   display: flex;
