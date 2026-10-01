@@ -1,4 +1,10 @@
 import { useEffect, useState } from "react";
+import {
+  IconActivity,
+  IconBuildingBank,
+  IconFingerprint,
+  IconShieldLock,
+} from "@tabler/icons-react";
 import { fetchExchangeRates, type ExchangeRates } from "../lib/exchange-rates";
 
 const APP_TITLE = "Rapidus";
@@ -721,6 +727,7 @@ function RapidusFooter() {
     ["Benefits", "#benefits"],
     ["Services", "#services"],
     ["Resources", "#resources"],
+    ["Security", "#security"],
     ["FAQs", "#faq"],
   ];
   const socialLinks = [
@@ -866,6 +873,72 @@ function ResourcesSection() {
   );
 }
 
+function SecuritySection() {
+  return (
+    <section
+      id="security"
+      className="security-section"
+      aria-labelledby="security-title"
+    >
+      <div className="security-container">
+        <div className="security-heading">
+          <h2 id="security-title">
+            Your Money Stay
+            <br />
+            Safe, Always
+          </h2>
+          <p>
+            Strong security protects every transaction so you move, store, and
+            spend with total confidence.
+          </p>
+        </div>
+        <div className="security-grid">
+          <article className="security-item">
+            <span className="security-icon" aria-hidden="true">
+              <IconShieldLock size={22} stroke={1.7} />
+            </span>
+            <h3>Bank-grade Encryption</h3>
+            <p>
+              Your data stays protected with advanced encryption used by leading
+              financial institutions.
+            </p>
+          </article>
+          <article className="security-item">
+            <span className="security-icon" aria-hidden="true">
+              <IconFingerprint size={22} stroke={1.7} />
+            </span>
+            <h3>Biometric Protection</h3>
+            <p>
+              Access your account quickly and securely using fingerprint or face
+              authentication.
+            </p>
+          </article>
+          <article className="security-item">
+            <span className="security-icon" aria-hidden="true">
+              <IconBuildingBank size={22} stroke={1.7} />
+            </span>
+            <h3>Regulated Financial Partners</h3>
+            <p>
+              Your funds sit with trusted, regulated institutions that meet
+              strict compliance standards.
+            </p>
+          </article>
+          <article className="security-item">
+            <span className="security-icon" aria-hidden="true">
+              <IconActivity size={22} stroke={1.7} />
+            </span>
+            <h3>Real-time Fraud Monitoring</h3>
+            <p>
+              Smart systems monitor activity around the clock to detect and block
+              suspicious behavior instantly.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function HomeRoute() {
   return (
     <>
@@ -883,6 +956,7 @@ export default function HomeRoute() {
             <a href="#benefits">Benefits</a>
             <a href="#services">Services</a>
             <a href="#resources">Resources</a>
+            <a href="#security">Security</a>
             <a href="#faq">FAQ</a>
           </nav>
           <div className="rapidus-nav-actions">
@@ -967,6 +1041,7 @@ export default function HomeRoute() {
       <FeatureSection />
       <ServicesSection />
       <ResourcesSection />
+      <SecuritySection />
       <HowItWorksSection />
       <DownloadSection />
       <RapidusFooter />
