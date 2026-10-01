@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   IconActivity,
   IconBuildingBank,
@@ -985,33 +985,68 @@ function SecuritySection() {
 }
 
 export default function HomeRoute() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isMenuOpen]);
+
   return (
     <>
       <div className="rapidus-page">
         <div className="hero-grid" aria-hidden="true" />
-        <header className="rapidus-nav">
+        <header className={`rapidus-nav${isMenuOpen ? " is-open" : ""}`}>
           <a className="rapidus-logo" href="/" aria-label="Rapidus home">
             <RapidusLogo />
           </a>
-          <nav className="rapidus-links" aria-label="Primary navigation">
-            <a className="active" href="#home">
-              Home
-            </a>
-            <a href="#features">Features</a>
-            <a href="#benefits">Benefits</a>
-            <a href="#services">Services</a>
-            <a href="#resources">Resources</a>
-            <a href="#security">Security</a>
-            <a href="#faq">FAQ</a>
+          <button
+            ref={menuButtonRef}
+            className="rapidus-nav-toggle"
+            type="button"
+            aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={isMenuOpen}
+            aria-controls="rapidus-navigation"
+            onClick={() => setIsMenuOpen((open) => !open)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+          <nav
+            id="rapidus-navigation"
+            className="rapidus-links"
+            aria-label="Primary navigation"
+          >
+            {[
+              ["Home", "#home"],
+              ["Features", "#features"],
+              ["Benefits", "#benefits"],
+              ["Services", "#services"],
+              ["Resources", "#resources"],
+              ["Security", "#security"],
+              ["FAQ", "#faq"],
+            ].map(([label, href]) => (
+              <a
+                className={label === "Home" ? "active" : undefined}
+                href={href}
+                key={label}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {label}
+              </a>
+            ))}
           </nav>
-          <div className="rapidus-nav-actions">
-            {/* <a className="signin" href="#signin">
-              Sign in <span>♙</span>
-            </a> */}
-            <a className="button button-light" href="#get-started">
-              Get Started <ArrowCircle />
-            </a>
-          </div>
         </header>
 
         <main id="home" className="hero-content">
