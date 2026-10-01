@@ -842,37 +842,6 @@ function ServicesSection() {
   );
 }
 
-function ResourcesSection() {
-  return (
-    <section
-      id="resources"
-      className="listing-section resources-section"
-      aria-labelledby="resources-title"
-    >
-      <div className="listing-container">
-        <h2 id="resources-title">Resources</h2>
-        <div className="listing-grid listing-grid--resources">
-          <article className="listing-card">
-            <span className="listing-number" aria-hidden="true">01</span>
-            <h3>Fraud detection</h3>
-            <p>Monitoring and suspicious-activity alerts help protect accounts and payments.</p>
-          </article>
-          <article className="listing-card">
-            <span className="listing-number" aria-hidden="true">02</span>
-            <h3>AML checks</h3>
-            <p>Identity and transaction screening supports safer payments.</p>
-          </article>
-          <article className="listing-card">
-            <span className="listing-number" aria-hidden="true">03</span>
-            <h3>Dispute resolution</h3>
-            <p>Find support for reporting and tracking a payment issue.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function SecuritySection() {
   return (
     <section
@@ -933,6 +902,29 @@ function SecuritySection() {
               suspicious behavior instantly.
             </p>
           </article>
+        </div>
+        <div className="security-resources" id="resources">
+          <h3>Resources</h3>
+          <div className="security-grid security-resource-grid">
+            <article className="security-item">
+              <span className="security-icon security-resource-number" aria-hidden="true">01</span>
+              <h4>Fraud detection</h4>
+              <p>
+                Monitoring and suspicious-activity alerts help protect accounts
+                and payments.
+              </p>
+            </article>
+            <article className="security-item">
+              <span className="security-icon security-resource-number" aria-hidden="true">02</span>
+              <h4>AML checks</h4>
+              <p>Identity and transaction screening supports safer payments.</p>
+            </article>
+            <article className="security-item">
+              <span className="security-icon security-resource-number" aria-hidden="true">03</span>
+              <h4>Dispute resolution</h4>
+              <p>Find support for reporting and tracking a payment issue.</p>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -1040,7 +1032,6 @@ export default function HomeRoute() {
       </section>
       <FeatureSection />
       <ServicesSection />
-      <ResourcesSection />
       <SecuritySection />
       <HowItWorksSection />
       <DownloadSection />

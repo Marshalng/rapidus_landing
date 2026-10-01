@@ -2223,9 +2223,6 @@ a:focus-visible {
 .services-section {
   background: #fff;
 }
-.resources-section {
-  background: #f7f9fc;
-}
 .listing-container {
   width: min(1160px, 100%);
   margin: 0 auto;
@@ -2243,9 +2240,6 @@ a:focus-visible {
 }
 .listing-grid--services {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.listing-grid--resources {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .listing-card {
   min-width: 0;
@@ -2287,9 +2281,6 @@ a:focus-visible {
   .listing-section {
     padding: 80px 24px;
   }
-  .listing-grid--resources {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 @media (max-width: 600px) {
   .listing-section {
@@ -2298,8 +2289,7 @@ a:focus-visible {
   .listing-container > h2 {
     margin-bottom: 24px;
   }
-  .listing-grid--services,
-  .listing-grid--resources {
+  .listing-grid--services {
     grid-template-columns: 1fr;
     gap: 12px;
   }
@@ -2375,6 +2365,45 @@ a:focus-visible {
   font-size: clamp(9px, 0.9vw, 12px);
   line-height: 1.45;
 }
+.security-resources {
+  margin-top: 48px;
+  padding-top: 34px;
+  border-top: 1px solid #e8eeec;
+}
+.security-resources > h3 {
+  margin: 0 0 24px;
+  color: #173a37;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+.security-resource-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 0;
+}
+.security-resource-number {
+  width: auto;
+  min-width: 34px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+}
+.security-item h4 {
+  margin: 11px 0 5px;
+  color: #172c2a;
+  font-size: clamp(11px, 1.1vw, 15px);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+@media (max-width: 760px) {
+  .security-resource-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 @media (max-width: 760px) {
   .security-section {
     padding: 64px 0;
@@ -2398,7 +2427,8 @@ a:focus-visible {
   .security-grid {
     gap: 30px 20px;
   }
-  .security-item h3 {
+  .security-item h3,
+  .security-item h4 {
     margin-top: 12px;
     font-size: 14px;
   }
