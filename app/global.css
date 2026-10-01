@@ -1047,10 +1047,10 @@ a:focus-visible {
     align-items: stretch;
     gap: 2px;
     padding: 10px;
-    border: 1px solid rgba(230, 249, 246, 0.12);
+    border: 1px solid rgba(0, 80, 70, 0.1);
     border-radius: 18px;
-    background: #073f38;
-    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.24);
+    background: #fff;
+    box-shadow: 0 18px 42px rgba(0, 40, 35, 0.16);
   }
   .rapidus-nav.is-open .rapidus-links {
     display: flex;
@@ -1058,13 +1058,19 @@ a:focus-visible {
   .rapidus-links a {
     padding: 12px 14px;
     border-radius: 10px;
+    color: var(--rapidus-deep);
   }
   .rapidus-links a:hover,
   .rapidus-links a:focus-visible {
-    background: rgba(255, 255, 255, 0.08);
+    background: #f2fbf9;
+    color: var(--rapidus-deep);
+  }
+  .rapidus-links a:focus-visible {
+    outline-color: var(--rapidus-teal);
   }
   .rapidus-links .active {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--rapidus-mint);
+    color: var(--rapidus-deep);
   }
   .hero-content {
     padding-top: 62px;
