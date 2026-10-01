@@ -895,7 +895,7 @@ function SecuritySection() {
         <div className="security-grid">
           <article className="security-item">
             <span className="security-icon" aria-hidden="true">
-              <IconShieldLock size={22} stroke={1.7} />
+              <IconShieldLock size={18} stroke={1.7} />
             </span>
             <h3>Bank-grade Encryption</h3>
             <p>
@@ -905,7 +905,7 @@ function SecuritySection() {
           </article>
           <article className="security-item">
             <span className="security-icon" aria-hidden="true">
-              <IconFingerprint size={22} stroke={1.7} />
+              <IconFingerprint size={18} stroke={1.7} />
             </span>
             <h3>Biometric Protection</h3>
             <p>
@@ -915,7 +915,7 @@ function SecuritySection() {
           </article>
           <article className="security-item">
             <span className="security-icon" aria-hidden="true">
-              <IconBuildingBank size={22} stroke={1.7} />
+              <IconBuildingBank size={18} stroke={1.7} />
             </span>
             <h3>Regulated Financial Partners</h3>
             <p>
@@ -925,7 +925,7 @@ function SecuritySection() {
           </article>
           <article className="security-item">
             <span className="security-icon" aria-hidden="true">
-              <IconActivity size={22} stroke={1.7} />
+              <IconActivity size={18} stroke={1.7} />
             </span>
             <h3>Real-time Fraud Monitoring</h3>
             <p>
