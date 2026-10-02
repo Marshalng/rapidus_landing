@@ -1,3 +1,12 @@
+import { useEffect, useRef, useState } from "react";
+import {
+  IconActivity,
+  IconBuildingBank,
+  IconFingerprint,
+  IconShieldLock,
+} from "@tabler/icons-react";
+import { fetchExchangeRates, type ExchangeRates } from "../lib/exchange-rates";
+
 const APP_TITLE = "Rapidus";
 
 export function meta() {
@@ -104,18 +113,24 @@ const featureCards = [
     visual: "wallets",
   },
   {
+    icon: "↻",
+    title: "Smart Top-up",
+    description: "Automated bank linking for easy funding.",
+    visual: "topup",
+  },
+  {
     icon: "⇄",
     title: "Real-Time Currency Exchange",
     description:
-      "Convert money instantly at live market rates with full visibility before you confirm any trade.",
+      "Preview indicative currency conversions using the latest published reference rates.",
     visual: "exchange",
   },
   {
     icon: "⇄",
     title: "Peer-to-Peer Currency Exchange",
     description:
-      "Choose your desired exchange rates and trade with other users directly.",
-    visual: "exchange",
+      "List buy or sell offers at your own rate and trade directly with other users.",
+    visual: "p2p",
   },
   {
     icon: "♜",
@@ -126,9 +141,9 @@ const featureCards = [
   },
   {
     icon: "▤",
-    title: "Virtual Cards",
+    title: "Virtual & Physical Cards",
     description:
-      "Create and manage virtual cards for online payments with spending limits and instant freeze controls.",
+      "Choose virtual or physical cards to spend internationally and withdraw cash wherever supported.",
     visual: "cards",
   },
   {
@@ -146,6 +161,156 @@ const featureCards = [
     visual: "routing",
   },
 ] as const;
+
+function CurrencyCalculator() {
+  const [rates, setRates] = useState<ExchangeRates | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
+  const [amount, setAmount] = useState("100");
+  const [fromCurrency, setFromCurrency] = useState("EUR");
+  const [toCurrency, setToCurrency] = useState("GBP");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
+    setHasError(false);
+
+    fetchExchangeRates(controller.signal)
+      .then(setRates)
+      .catch(() => {
+        if (!controller.signal.aborted) setHasError(true);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
+  }, [attempt]);
+
+  const amountValue = Number(amount);
+  const rate =
+    rates && rates.rates[fromCurrency] && rates.rates[toCurrency]
+      ? rates.rates[toCurrency] / rates.rates[fromCurrency]
+      : null;
+  const converted =
+    rate !== null &&
+    amount.trim() !== "" &&
+    Number.isFinite(amountValue) &&
+    amountValue >= 0
+      ? amountValue * rate
+      : null;
+  const updatedAt = rates
+    ? new Intl.DateTimeFormat("en", {
+        dateStyle: "medium",
+        timeStyle: "short",
+        timeZone: "UTC",
+      }).format(new Date(rates.lastUpdatedUtc))
+    : null;
+
+  const formatCurrency = (value: number, currency: string) =>
+    new Intl.NumberFormat("en", {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 2,
+    }).format(value);
+
+  return (
+    <div className="feature-visual exchange-visual">
+      <div className="calculator-heading">
+        <h4>Currency Calculator</h4>
+        <button
+          className="calculator-refresh"
+          type="button"
+          onClick={() => setAttempt((current) => current + 1)}
+          disabled={loading}
+          aria-label="Refresh exchange rates"
+        >
+          ↻
+        </button>
+      </div>
+      <div className="calculator-fields">
+        <label className="calculator-field">
+          <span>Amount</span>
+          <div className="calculator-control">
+            <input
+              type="number"
+              min="0"
+              step="any"
+              inputMode="decimal"
+              value={amount}
+              onChange={(event) => setAmount(event.target.value)}
+              aria-label="Amount to convert"
+            />
+            <select
+              value={fromCurrency}
+              onChange={(event) => setFromCurrency(event.target.value)}
+              aria-label="Convert from currency"
+              disabled={!rates}
+            >
+              {Object.keys(rates?.rates ?? { EUR: 1, GBP: 1 })
+                .sort()
+                .map((currency) => (
+                  <option key={currency} value={currency}>
+                    {currency}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </label>
+        <span className="calculator-swap" aria-hidden="true">
+          ⇄
+        </span>
+        <label className="calculator-field">
+          <span>You receive</span>
+          <div className="calculator-control">
+            <output aria-live="polite">
+              {converted === null
+                ? "—"
+                : formatCurrency(converted, toCurrency)}
+            </output>
+            <select
+              value={toCurrency}
+              onChange={(event) => setToCurrency(event.target.value)}
+              aria-label="Convert to currency"
+              disabled={!rates}
+            >
+              {Object.keys(rates?.rates ?? { EUR: 1, GBP: 1 })
+                .sort()
+                .map((currency) => (
+                  <option key={currency} value={currency}>
+                    {currency}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </label>
+      </div>
+      {loading ? (
+        <div className="calculator-status" role="status">
+          Loading reference rates…
+        </div>
+      ) : hasError ? (
+        <div className="calculator-status calculator-error" role="alert">
+          Rates are unavailable. Check your connection and retry.
+          <button type="button" onClick={() => setAttempt((current) => current + 1)}>
+            Retry
+          </button>
+        </div>
+      ) : rates && rate !== null ? (
+        <div className="calculator-rate">
+          <strong>
+            1 {fromCurrency} = {rate.toFixed(4)} {toCurrency}
+          </strong>
+          <span>Updated {updatedAt} UTC</span>
+        </div>
+      ) : null}
+      <div className="calculator-attribution">
+        Indicative reference rate · <a href="https://open.er-api.com/v6/latest/USD" target="_blank" rel="noreferrer">ExchangeRate-API</a>
+      </div>
+    </div>
+  );
+}
 
 function FeatureVisual({
   type,
@@ -177,25 +342,38 @@ function FeatureVisual({
   }
 
   if (type === "exchange") {
+    return <CurrencyCalculator />;
+  }
+
+  if (type === "p2p") {
     return (
-      <div className="feature-visual exchange-visual">
-        <div className="exchange-tabs">
-          <b>Direct Exchange</b>
-          <b>P2P Exchange</b>
+      <div className="feature-visual p2p-visual" aria-hidden="true">
+        <div className="p2p-directions">
+          <b>Buy</b>
+          <span>Sell</span>
         </div>
-        <div className="exchange-panel">
-          <div>
-            <small>You send</small>
-            <strong>0.00</strong>
-            <span>🇪🇺 EUR⌄</span>
+        <div className="p2p-currency-pair">
+          <span>🇺🇸 USD</span>
+          <i>⇄</i>
+          <span>🇳🇬 NGN</span>
+        </div>
+        <div className="p2p-offer">
+          <div className="p2p-offer-heading">
+            <strong>test1</strong>
+            <b>Buy</b>
           </div>
-          <i>⇅</i>
-          <div>
-            <small>You receive</small>
-            <strong>0.00</strong>
-            <span>🇺🇸 USD⌄</span>
+          <p>Rate: 1 USD = 1,200 NGN</p>
+          <div className="p2p-offer-divider" />
+          <div className="p2p-offer-detail">
+            <span>Available</span>
+            <strong>₦4,800,000</strong>
+          </div>
+          <div className="p2p-offer-detail">
+            <span>Total</span>
+            <strong>₦4,800,000</strong>
           </div>
         </div>
+        <div className="p2p-create-offer">+</div>
       </div>
     );
   }
@@ -225,6 +403,7 @@ function FeatureVisual({
   if (type === "cards") {
     return (
       <div className="feature-visual cards-visual">
+        <span className="cards-physical-label">Physical card</span>
         <div className="feature-card-stack feature-card-stack--back" />
         <div className="feature-card-stack feature-card-stack--mid" />
         <div className="feature-card-stack feature-card-stack--front">
@@ -238,6 +417,34 @@ function FeatureVisual({
             <u />
             <u />
           </strong>
+        </div>
+        <div className="cards-capabilities">
+          <span>International spending</span>
+          <span>Cash withdrawals</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (type === "topup") {
+    return (
+      <div className="feature-visual routing-visual topup-visual">
+        <h4>Automatic top-up</h4>
+        <div className="routing-row">
+          <span>▤</span>
+          <b>
+            Linked bank account
+            <small>Automatic funding source</small>
+          </b>
+          <em>Connected</em>
+        </div>
+        <div className="routing-row">
+          <span>↻</span>
+          <b>
+            Smart top-up
+            <small>Enabled</small>
+          </b>
+          <em>Active</em>
         </div>
       </div>
     );
@@ -279,7 +486,7 @@ function FeatureVisual({
   }
 
   return (
-    <div className="feature-visual routing-visual">
+    <div className="feature-visual routing-visual smart-routing-visual">
       <h4>Linked Wallets</h4>
       {["🇺🇸 USD", "🇬🇧 GBP", "🇪🇺 EUR", "🇳🇬 NGN", "🇬🇭 GHS"].map(
         (wallet, index) => (
@@ -301,6 +508,10 @@ const howItWorksSteps = [
   [
     "Create Your Account",
     "Set up your profile in minutes with a simple sign up process and instant account access.",
+  ],
+  [
+    "Enable Two-Factor Authentication",
+    "Two-factor authentication is required before you can continue.",
   ],
   [
     "Verify your identity",
@@ -509,11 +720,67 @@ function DownloadSection() {
   );
 }
 
+function ContactSection() {
+  return (
+    <section
+      id="contact"
+      className="contact-section"
+      aria-labelledby="contact-title"
+    >
+      <div className="contact-container">
+        <div className="contact-heading">
+          <h2 id="contact-title">Contact Us</h2>
+          <p>
+            Questions about your account or a payment? Send our team a message.
+          </p>
+        </div>
+        <form
+          className="contact-form"
+          onSubmit={(event) => event.preventDefault()}
+          aria-describedby="contact-status"
+        >
+          <div className="contact-form-row">
+            <label className="contact-field">
+              <span>Name</span>
+              <input type="text" name="name" autoComplete="name" required />
+            </label>
+            <label className="contact-field">
+              <span>Email</span>
+              <input
+                type="email"
+                name="email"
+                autoComplete="email"
+                required
+              />
+            </label>
+          </div>
+          <label className="contact-field">
+            <span>Message</span>
+            <textarea name="message" rows={5} required />
+          </label>
+          <div className="contact-form-actions">
+            <button className="contact-submit" type="submit" disabled>
+              Send Message <span aria-hidden="true">→</span>
+            </button>
+            <p id="contact-status" role="status">
+              Message delivery isn’t connected yet.
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+}
+
 function RapidusFooter() {
   const footerLinks = [
     ["Home", "#home"],
     ["Features", "#features"],
     ["Benefits", "#benefits"],
+    ["Services", "#services"],
+    ["Resources", "#resources"],
+    ["Security", "#security"],
+    ["Contact Us", "#contact"],
     ["FAQs", "#faq"],
   ];
   const socialLinks = [
@@ -602,31 +869,189 @@ function FeatureSection() {
   );
 }
 
+function ServicesSection() {
+  return (
+    <section
+      id="services"
+      className="listing-section services-section"
+      aria-labelledby="services-title"
+    >
+      <div className="listing-container">
+        <h2 id="services-title">Services</h2>
+        <div className="listing-grid listing-grid--services">
+          <article className="listing-card">
+            <span className="listing-number" aria-hidden="true">01</span>
+            <h3>Money transfers</h3>
+            <p>Send money locally or internationally with real-time tracking.</p>
+          </article>
+          <article className="listing-card">
+            <span className="listing-number" aria-hidden="true">02</span>
+            <h3>Multi-currency cards</h3>
+            <p>Spend abroad and withdraw cash with virtual or physical cards, wherever supported.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SecuritySection() {
+  return (
+    <section
+      id="security"
+      className="security-section"
+      aria-labelledby="security-title"
+    >
+      <div className="security-container">
+        <div className="security-heading">
+          <h2 id="security-title">
+            Your Money Stay
+            <br />
+            Safe, Always
+          </h2>
+          <p>
+            Strong security protects every transaction so you move, store, and
+            spend with total confidence.
+          </p>
+        </div>
+        <div className="security-grid">
+          <article className="security-item">
+            <span className="security-icon" aria-hidden="true">
+              <IconShieldLock size={18} stroke={1.7} />
+            </span>
+            <h3>Bank-grade Encryption</h3>
+            <p>
+              Your data stays protected with advanced encryption used by leading
+              financial institutions.
+            </p>
+          </article>
+          <article className="security-item">
+            <span className="security-icon" aria-hidden="true">
+              <IconFingerprint size={18} stroke={1.7} />
+            </span>
+            <h3>Biometric Protection</h3>
+            <p>
+              Access your account quickly and securely using fingerprint or face
+              authentication.
+            </p>
+          </article>
+          <article className="security-item">
+            <span className="security-icon" aria-hidden="true">
+              <IconBuildingBank size={18} stroke={1.7} />
+            </span>
+            <h3>Regulated Financial Partners</h3>
+            <p>
+              Your funds sit with trusted, regulated institutions that meet
+              strict compliance standards.
+            </p>
+          </article>
+          <article className="security-item">
+            <span className="security-icon" aria-hidden="true">
+              <IconActivity size={18} stroke={1.7} />
+            </span>
+            <h3>Real-time Fraud Monitoring</h3>
+            <p>
+              Smart systems monitor activity around the clock to detect and block
+              suspicious behavior instantly.
+            </p>
+          </article>
+        </div>
+        <div className="security-resources" id="resources">
+          <h3>Resources</h3>
+          <div className="security-grid security-resource-grid">
+            <article className="security-item">
+              <span className="security-icon security-resource-number" aria-hidden="true">01</span>
+              <h4>Fraud detection</h4>
+              <p>
+                Monitoring and suspicious-activity alerts help protect accounts
+                and payments.
+              </p>
+            </article>
+            <article className="security-item">
+              <span className="security-icon security-resource-number" aria-hidden="true">02</span>
+              <h4>AML checks</h4>
+              <p>Identity and transaction screening supports safer payments.</p>
+            </article>
+            <article className="security-item">
+              <span className="security-icon security-resource-number" aria-hidden="true">03</span>
+              <h4>Dispute resolution</h4>
+              <p>Find support for reporting and tracking a payment issue.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function HomeRoute() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isMenuOpen]);
+
   return (
     <>
       <div className="rapidus-page">
         <div className="hero-grid" aria-hidden="true" />
-        <header className="rapidus-nav">
+        <header className={`rapidus-nav${isMenuOpen ? " is-open" : ""}`}>
           <a className="rapidus-logo" href="/" aria-label="Rapidus home">
             <RapidusLogo />
           </a>
-          <nav className="rapidus-links" aria-label="Primary navigation">
-            <a className="active" href="#home">
-              Home
-            </a>
-            <a href="#features">Features</a>
-            <a href="#benefits">Benefits</a>
-            <a href="#faq">FAQ</a>
+          <nav
+            id="rapidus-navigation"
+            className="rapidus-links"
+            aria-label="Primary navigation"
+          >
+            {[
+              ["Home", "#home"],
+              ["Features", "#features"],
+              ["Benefits", "#benefits"],
+              ["Services", "#services"],
+              ["Resources", "#resources"],
+              ["Security", "#security"],
+              ["FAQ", "#faq"],
+            ].map(([label, href]) => (
+              <a
+                className={label === "Home" ? "active" : undefined}
+                href={href}
+                key={label}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {label}
+              </a>
+            ))}
           </nav>
           <div className="rapidus-nav-actions">
-            {/* <a className="signin" href="#signin">
-              Sign in <span>♙</span>
-            </a> */}
             <a className="button button-light" href="#get-started">
               Get Started <ArrowCircle />
             </a>
           </div>
+          <button
+            ref={menuButtonRef}
+            className="rapidus-nav-toggle"
+            type="button"
+            aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
+            aria-expanded={isMenuOpen}
+            aria-controls="rapidus-navigation"
+            onClick={() => setIsMenuOpen((open) => !open)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </header>
 
         <main id="home" className="hero-content">
@@ -699,8 +1124,11 @@ export default function HomeRoute() {
         </div>
       </section>
       <FeatureSection />
+      <ServicesSection />
+      <SecuritySection />
       <HowItWorksSection />
       <DownloadSection />
+      <ContactSection />
       <RapidusFooter />
     </>
   );
