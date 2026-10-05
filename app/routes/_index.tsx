@@ -5,7 +5,12 @@ import {
   IconFingerprint,
   IconShieldLock,
 } from "@tabler/icons-react";
-import { fetchExchangeRates, type ExchangeRates } from "../lib/exchange-rates";
+import {
+  fetchExchangeRates,
+  fetchExchangeRateHistory,
+  type ExchangeRates,
+  type HistoricalExchangeRate,
+} from "../lib/exchange-rates";
 
 const APP_TITLE = "Rapidus";
 
@@ -162,6 +167,13 @@ const featureCards = [
   },
 ] as const;
 
+type HistoryRange = "24h" | "7d" | "30d";
+
+type HistoryState =
+  | { status: "loading"; points: HistoricalExchangeRate[] }
+  | { status: "ready"; points: HistoricalExchangeRate[] }
+  | { status: "unavailable"; points: HistoricalExchangeRate[] };
+
 function CurrencyCalculator() {
   const [rates, setRates] = useState<ExchangeRates | null>(null);
   const [loading, setLoading] = useState(true);
@@ -170,6 +182,11 @@ function CurrencyCalculator() {
   const [amount, setAmount] = useState("100");
   const [fromCurrency, setFromCurrency] = useState("EUR");
   const [toCurrency, setToCurrency] = useState("GBP");
+  const [historyRange, setHistoryRange] = useState<HistoryRange>("7d");
+  const [history, setHistory] = useState<HistoryState>({
+    status: "loading",
+    points: [],
+  });
 
   useEffect(() => {
     const controller = new AbortController();
@@ -188,11 +205,42 @@ function CurrencyCalculator() {
     return () => controller.abort();
   }, [attempt]);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    setHistory({ status: "loading", points: [] });
+
+    fetchExchangeRateHistory(fromCurrency, toCurrency, historyRange, controller.signal)
+      .then((points) => {
+        if (!controller.signal.aborted) setHistory({ status: "ready", points });
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) {
+          setHistory({ status: "unavailable", points: [] });
+        }
+      });
+
+    return () => controller.abort();
+  }, [fromCurrency, toCurrency, historyRange]);
+
   const amountValue = Number(amount);
   const rate =
     rates && rates.rates[fromCurrency] && rates.rates[toCurrency]
       ? rates.rates[toCurrency] / rates.rates[fromCurrency]
       : null;
+  const trendValues = history.points.map(({ rate: value }) => value);
+  const trendMin = Math.min(...trendValues);
+  const trendMax = Math.max(...trendValues);
+  const trendY = (value: number) =>
+    trendMax === trendMin ? 32 : 56 - ((value - trendMin) / (trendMax - trendMin)) * 48;
+  const trendPath = history.points
+    .map((point, index) => {
+      const x = 4 + (index / (history.points.length - 1)) * 312;
+      return `${index === 0 ? "M" : "L"}${x.toFixed(1)} ${trendY(point.rate).toFixed(1)}`;
+    })
+    .join(" ");
+  const trendDate = (date: string) =>
+    new Intl.DateTimeFormat("en", { month: "short", day: "numeric", timeZone: "UTC" })
+      .format(new Date(`${date}T00:00:00Z`));
   const converted =
     rate !== null &&
     amount.trim() !== "" &&
@@ -200,14 +248,6 @@ function CurrencyCalculator() {
     amountValue >= 0
       ? amountValue * rate
       : null;
-  const updatedAt = rates
-    ? new Intl.DateTimeFormat("en", {
-        dateStyle: "medium",
-        timeStyle: "short",
-        timeZone: "UTC",
-      }).format(new Date(rates.lastUpdatedUtc))
-    : null;
-
   const formatCurrency = (value: number, currency: string) =>
     new Intl.NumberFormat("en", {
       style: "currency",
@@ -305,9 +345,57 @@ function CurrencyCalculator() {
           {/* <span>Updated {updatedAt} UTC</span> */}
         </div>
       ) : null}
-      {/* <div className="calculator-attribution">
-        Indicative reference rate · <a href="https://open.er-api.com/v6/latest/USD" target="_blank" rel="noreferrer">ExchangeRate-API</a>
-      </div> */}
+      <div className="calculator-history">
+        <div className="history-heading">
+          <span>{fromCurrency} / {toCurrency} trend</span>
+          <div className="history-ranges" role="group" aria-label="Trend range">
+            {(["24h", "7d", "30d"] as const).map((range) => (
+              <button
+                type="button"
+                key={range}
+                aria-pressed={historyRange === range}
+                onClick={() => setHistoryRange(range)}
+              >
+                {range}
+              </button>
+            ))}
+          </div>
+        </div>
+        {history.status === "loading" ? (
+          <div className="history-message" role="status">Loading history…</div>
+        ) : history.status === "unavailable" ? (
+          <div className="history-message" role="status">
+            Historical rates are unavailable for this pair.
+          </div>
+        ) : history.points.length < 2 ? (
+          <div className="history-message" role="status">
+            Limited daily data for this range.
+          </div>
+        ) : (
+          <>
+            <svg
+              className="history-chart"
+              viewBox="0 0 320 64"
+              role="img"
+              aria-label={`${fromCurrency} to ${toCurrency} daily rate trend over ${historyRange}`}
+              preserveAspectRatio="none"
+            >
+              <path className="history-gridline" d="M0 54H320" />
+              <path className="history-line" d={trendPath} />
+              <circle
+                className="history-endpoint"
+                cx="316"
+                cy={trendY(history.points[history.points.length - 1].rate)}
+                r="3"
+              />
+            </svg>
+            <div className="history-dates" aria-hidden="true">
+              <span>{trendDate(history.points[0].date)}</span>
+              <span>{trendDate(history.points[history.points.length - 1].date)}</span>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
@@ -457,41 +545,6 @@ function FeatureVisual({
 </div>
 
         
-      </div>
-    );
-  }
-
-  if (type === "investments") {
-    return (
-      <div className="feature-visual investment-visual">
-        <div className="candles">
-          {[
-            "up",
-            "down",
-            "up",
-            "up",
-            "down",
-            "down",
-            "up",
-            "up",
-            "down",
-            "up",
-            "up",
-          ].map((tone, index) => (
-            <i className={tone} key={index} />
-          ))}
-        </div>
-        <div className="investment-list">
-          <span>
-            ◉ AAPL <b>↗ 2.15%</b>
-          </span>
-          <span>
-            ◉ MTN <b className="down">↘ 0.51%</b>
-          </span>
-          <span>
-            ◉ ACCS <b>↗ 1.24%</b>
-          </span>
-        </div>
       </div>
     );
   }

@@ -1731,6 +1731,84 @@ a:focus-visible {
   color: #005046;
   text-underline-offset: 2px;
 }
+.calculator-history {
+  margin-top: 14px;
+}
+.history-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #66716e;
+  font-size: 10px;
+  font-weight: 500;
+}
+.history-ranges {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 999px;
+  background: #f1f4f3;
+}
+.history-ranges button {
+  min-width: 30px;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 999px;
+  color: #66716e;
+  background: transparent;
+  font: inherit;
+  font-size: 9px;
+  cursor: pointer;
+}
+.history-ranges button[aria-pressed="true"] {
+  color: #fff;
+  background: #005046;
+}
+.history-ranges button:focus-visible {
+  outline: 2px solid #00a995;
+  outline-offset: 2px;
+}
+.history-chart {
+  display: block;
+  width: 100%;
+  height: 54px;
+  margin-top: 5px;
+  overflow: visible;
+}
+.history-gridline {
+  fill: none;
+  stroke: #e9eeec;
+  stroke-width: 1;
+}
+.history-line {
+  fill: none;
+  stroke: #00a995;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+.history-endpoint {
+  fill: #005046;
+  stroke: #fff;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.history-dates {
+  display: flex;
+  justify-content: space-between;
+  color: #89938f;
+  font-size: 9px;
+}
+.history-message {
+  display: grid;
+  height: 58px;
+  place-items: center;
+  color: #89938f;
+  font-size: 10px;
+  text-align: center;
+}
 .p2p-visual {
   height: 358px;
   padding: 18px 22px 22px;
@@ -2266,7 +2344,7 @@ a:focus-visible {
   }
   .calculator-rate,
   .calculator-status {
-    margin-top: 38px;
+    margin-top: 14px;
   }
   .calculator-rate {
     flex-wrap: wrap;
