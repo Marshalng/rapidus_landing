@@ -1511,7 +1511,7 @@ a:focus-visible {
 }
 .feature-visual {
   position: absolute;
-  right: 0;
+  right: 10%;
   bottom: 0;
   left: 0;
   height: 358px;
@@ -1577,7 +1577,7 @@ a:focus-visible {
   width: auto;
   height: 344px;
   right: 32px;
-  bottom: 0;
+  bottom: 15px;
   left: 32px;
   padding: 23px 24px;
   border-radius: 20px 20px 0 0;
@@ -1901,14 +1901,14 @@ a:focus-visible {
 }
 .pin-canada {
   top: 90px;
-  right: 90px;
+  right: -17%;
 }
 .pin-china {
-  top: 12px;
-  right: 218px;
+  top: -80px;
+  right: 62%;
 }
 .pin-bangladesh {
-  right: 250px;
+  right: 62%;
   bottom: 16px;
 }
 .route {
@@ -2234,13 +2234,13 @@ a:focus-visible {
   }
   .feature-visual {
     transform: scale(0.78);
-    transform-origin: bottom center;
+    /* transform-origin: bottom center; */
   }
   .wallet-visual {
     width: min(100%, 330px);
     height: auto;
     right: auto;
-    bottom: -26px;
+    bottom: 19px;
     left: 50%;
     padding: 20px 14px 0;
     transform: translateX(-50%);
@@ -2296,7 +2296,7 @@ a:focus-visible {
   }
   .topup-visual {
     right: 16px;
-    bottom: 16px;
+    bottom: 116px;
     left: 16px;
     width: auto;
     height: 250px;
@@ -2928,7 +2928,8 @@ a:focus-visible {
   }
   .how-phone {
     transform: scale(0.72);
-    margin: -92px;
+    /* margin: -92px; */
+    margin-top: -92px;
   }
   .how-timeline {
     width: 100%;

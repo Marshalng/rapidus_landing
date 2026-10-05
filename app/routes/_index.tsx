@@ -122,7 +122,7 @@ const featureCards = [
     icon: "⇄",
     title: "Real-Time Currency Exchange",
     description:
-      "Preview indicative currency conversions using the latest published reference rates.",
+      "View estimated currency estimates using current official rates.",
     visual: "exchange",
   },
   {
@@ -136,7 +136,7 @@ const featureCards = [
     icon: "♜",
     title: "Secure transfers",
     description:
-      "Send money locally and internationally with fast settlement, strong encryption, and real time tracking.",
+      "Fast settlement, strong encryption, and real time tracking.",
     visual: "transfers",
   },
   {
@@ -146,18 +146,18 @@ const featureCards = [
       "Choose virtual or physical cards to spend internationally and withdraw cash wherever supported.",
     visual: "cards",
   },
-  {
-    icon: "↗",
-    title: "Investment Tools",
-    description:
-      "Buy stocks, mutual funds, and treasury bills directly from the app using your preferred currency.",
-    visual: "investments",
-  },
+  // {
+  //   icon: "↗",
+  //   title: "Investment Tools",
+  //   description:
+  //     "Buy stocks, mutual funds, and treasury bills directly from the app using your preferred currency.",
+  //   visual: "investments",
+  // },
   {
     icon: "↝",
     title: "Smart Routing",
     description:
-      "Set a primary wallet for your card and automatic backup wallets so payments go through even when one balance runs low.",
+      " Set your main payment source and add backup wallets so transactions never fail.",
     visual: "routing",
   },
 ] as const;
@@ -302,12 +302,12 @@ function CurrencyCalculator() {
           <strong>
             1 {fromCurrency} = {rate.toFixed(4)} {toCurrency}
           </strong>
-          <span>Updated {updatedAt} UTC</span>
+          {/* <span>Updated {updatedAt} UTC</span> */}
         </div>
       ) : null}
-      <div className="calculator-attribution">
+      {/* <div className="calculator-attribution">
         Indicative reference rate · <a href="https://open.er-api.com/v6/latest/USD" target="_blank" rel="noreferrer">ExchangeRate-API</a>
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -359,7 +359,7 @@ function FeatureVisual({
         </div>
         <div className="p2p-offer">
           <div className="p2p-offer-heading">
-            <strong>test1</strong>
+            <strong>Adetunji  </strong>
             <b>Buy</b>
           </div>
           <p>Rate: 1 USD = 1,200 NGN</p>
@@ -429,7 +429,7 @@ function FeatureVisual({
   if (type === "topup") {
     return (
       <div className="feature-visual routing-visual topup-visual">
-        <h4>Automatic top-up</h4>
+        {/* <h4>Automatic top-up</h4> */}
         <div className="routing-row">
           <span>▤</span>
           <b>
@@ -446,6 +446,17 @@ function FeatureVisual({
           </b>
           <em>Active</em>
         </div>
+
+        <div className="routing-row">
+  <span>◔</span>
+  <b>
+    Low-balance trigger
+    <small>Top up when balance drops</small>
+  </b>
+  <em>Set</em>
+</div>
+
+        
       </div>
     );
   }
@@ -777,8 +788,8 @@ function RapidusFooter() {
     ["Home", "#home"],
     ["Features", "#features"],
     ["Benefits", "#benefits"],
-    ["Services", "#services"],
-    ["Resources", "#resources"],
+    // ["Services", "#services"],
+    // ["Resources", "#resources"],
     ["Security", "#security"],
     ["Contact Us", "#contact"],
     ["FAQs", "#faq"],
@@ -956,7 +967,7 @@ function SecuritySection() {
             </p>
           </article>
         </div>
-        <div className="security-resources" id="resources">
+        {/* <div className="security-resources" id="resources">
           <h3>Resources</h3>
           <div className="security-grid security-resource-grid">
             <article className="security-item">
@@ -978,7 +989,7 @@ function SecuritySection() {
               <p>Find support for reporting and tracking a payment issue.</p>
             </article>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
@@ -1019,10 +1030,10 @@ export default function HomeRoute() {
               ["Home", "#home"],
               ["Features", "#features"],
               ["Benefits", "#benefits"],
-              ["Services", "#services"],
-              ["Resources", "#resources"],
+              // ["Services", "#services"],
+              // ["Resources", "#resources"],
               ["Security", "#security"],
-              ["FAQ", "#faq"],
+              // ["FAQ", "#faq"],
             ].map(([label, href]) => (
               <a
                 className={label === "Home" ? "active" : undefined}
@@ -1124,7 +1135,7 @@ export default function HomeRoute() {
         </div>
       </section>
       <FeatureSection />
-      <ServicesSection />
+      {/* <ServicesSection /> */}
       <SecuritySection />
       <HowItWorksSection />
       <DownloadSection />
