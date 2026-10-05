@@ -2257,6 +2257,32 @@ a:focus-visible {
   font-size: 10px;
   font-style: normal;
 }
+@media (min-width: 901px) {
+  .wallet-visual,
+  .topup-visual {
+    top: 208px;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    width: min(479px, calc(100% - 48px));
+    height: auto;
+    padding: 40px;
+    border-radius: 24px 24px 0 0;
+    transform: translateX(-50%);
+  }
+  .wallet-row {
+    width: min(388px, 100%);
+  }
+  .wallet-row:nth-child(2) {
+    width: min(388px, calc(100% - 18px));
+  }
+  .wallet-row:nth-child(3) {
+    width: min(388px, calc(100% - 46px));
+  }
+  .wallet-row:nth-child(4) {
+    width: min(388px, calc(100% - 62px));
+  }
+}
 @media (max-width: 900px) {
   .feature-section {
     padding-inline: 24px;
