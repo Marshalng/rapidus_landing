@@ -2271,6 +2271,8 @@ a:focus-visible {
     text-align: left;
   }
   .p2p-visual {
+    right: 16px;
+    left: 16px;
     height: 340px;
     padding: 16px 14px 20px;
     transform: none;
