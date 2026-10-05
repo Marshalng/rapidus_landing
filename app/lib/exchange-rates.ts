@@ -9,6 +9,60 @@ export type HistoricalExchangeRate = {
   rate: number;
 };
 
+async function fetchFxApiHistory(
+  fromCurrency: string,
+  toCurrency: string,
+  currencies: string[],
+  startDate: string,
+  endDate: string,
+  signal?: AbortSignal,
+): Promise<HistoricalExchangeRate[]> {
+  const fallbackHistories = await Promise.all(
+    currencies.map(async (currency) => {
+      const params = new URLSearchParams({ from: startDate, to: endDate });
+      const response = await fetch(
+        `https://fxapi.app/api/history/USD/${currency}.json?${params}`,
+        { signal },
+      );
+      if (!response.ok) throw new Error("Unable to fetch historical exchange rates.");
+
+      const payload: unknown = await response.json();
+      if (!payload || typeof payload !== "object") {
+        throw new Error("Invalid historical exchange-rate response.");
+      }
+
+      const data = payload as { base?: unknown; target?: unknown; rates?: unknown };
+      if (data.base !== "USD" || data.target !== currency || !Array.isArray(data.rates)) {
+        throw new Error("Invalid historical exchange-rate response.");
+      }
+
+      const rates = new Map<string, number>();
+      for (const point of data.rates) {
+        if (!point || typeof point !== "object") continue;
+        const { date, rate } = point as { date?: unknown; rate?: unknown };
+        if (
+          typeof date === "string" && date >= startDate && date <= endDate &&
+          typeof rate === "number" && Number.isFinite(rate) && rate > 0
+        ) {
+          rates.set(date, rate);
+        }
+      }
+      return [currency, rates] as const;
+    }),
+  );
+  const histories = new Map(fallbackHistories);
+  const dates = histories.get(currencies[0])?.keys() ?? [];
+
+  return [...dates]
+    .flatMap((date) => {
+      const fromRate = fromCurrency === "USD" ? 1 : histories.get(fromCurrency)?.get(date);
+      const toRate = toCurrency === "USD" ? 1 : histories.get(toCurrency)?.get(date);
+      if (fromRate === undefined || toRate === undefined) return [];
+      return [{ date, rate: toRate / fromRate }];
+    })
+    .sort((a, b) => a.date.localeCompare(b.date));
+}
+
 export async function fetchExchangeRateHistory(
   fromCurrency: string,
   toCurrency: string,
@@ -30,6 +84,10 @@ export async function fetchExchangeRateHistory(
     { signal },
   );
 
+  if (response.status === 404) {
+    return fetchFxApiHistory(fromCurrency, toCurrency, currencies, startDate, endDate, signal);
+  }
+
   if (!response.ok) throw new Error("Unable to fetch historical exchange rates.");
 
   const payload: unknown = await response.json();
@@ -40,6 +98,18 @@ export async function fetchExchangeRateHistory(
   const data = payload as { base?: unknown; rates?: unknown };
   if (data.base !== "USD" || !data.rates || typeof data.rates !== "object") {
     throw new Error("Invalid historical exchange-rate response.");
+  }
+
+  const dailyRates = Object.values(data.rates) as unknown[];
+  const hasRequestedCurrencies = currencies.every((currency) =>
+    dailyRates.some((rates) => {
+      if (!rates || typeof rates !== "object") return false;
+      const rate = (rates as Record<string, unknown>)[currency];
+      return typeof rate === "number" && Number.isFinite(rate) && rate > 0;
+    }),
+  );
+  if (!hasRequestedCurrencies) {
+    return fetchFxApiHistory(fromCurrency, toCurrency, currencies, startDate, endDate, signal);
   }
 
   return Object.entries(data.rates)
