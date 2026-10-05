@@ -2264,6 +2264,10 @@ a:focus-visible {
     padding: 20px 17px;
     transform: none;
   }
+  .calculator-rate,
+  .calculator-status {
+    margin-top: 38px;
+  }
   .calculator-rate {
     flex-wrap: wrap;
   }
