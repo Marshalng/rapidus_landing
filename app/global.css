@@ -2298,11 +2298,12 @@ a:focus-visible {
   }
   .topup-visual {
     right: 16px;
-    bottom: 116px;
+    bottom: 16px;
     left: 16px;
     width: auto;
-    height: 250px;
+    height: 344px;
     padding: 20px 14px;
+    box-sizing: border-box;
     transform: none;
   }
   .topup-visual h4 {
