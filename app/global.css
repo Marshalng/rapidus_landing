@@ -2257,7 +2257,7 @@ a:focus-visible {
   font-size: 10px;
   font-style: normal;
 }
-@media (min-width: 901px) {
+@media (min-width: 601px) {
   .wallet-visual,
   .topup-visual {
     top: 208px;
