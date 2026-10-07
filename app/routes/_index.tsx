@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import {
   IconActivity,
   IconBuildingBank,
@@ -13,6 +13,8 @@ import {
 } from "../lib/exchange-rates";
 
 const APP_TITLE = "Rapidus";
+
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mrerwbdk";
 
 export function meta() {
   return [
@@ -114,41 +116,41 @@ const featureCards = [
     icon: "▣",
     title: "Multi currency wallets",
     description:
-      "Hold, send and receive multiple currencies from one secure place without opening separate bank accounts.",
+      "Hold and manage multiple currencies in one secure wallet without opening separate bank accounts.",
     visual: "wallets",
   },
   {
     icon: "↻",
     title: "Smart Top-up",
-    description: "Automated bank linking for easy funding.",
+    description: "Link your bank and top up automatically whenever your balance drops below target.",
     visual: "topup",
   },
   {
     icon: "⇄",
     title: "Real-Time Currency Exchange",
     description:
-      "View estimated currency estimates using current official rates.",
+      "Check live exchange rates and estimate conversions instantly before you send or spend.",
     visual: "exchange",
   },
   {
     icon: "⇄",
-    title: "Peer-to-Peer Currency Exchange",
+    title: "Peer-to-Peer Exchange",
     description:
-      "List buy or sell offers at your own rate and trade directly with other users.",
+      "Trade directly with other users at your own rate and complete exchanges on your terms.",
     visual: "p2p",
   },
   {
     icon: "♜",
     title: "Secure transfers",
     description:
-      "Fast settlement, strong encryption, and real time tracking.",
+      "Send money fast with strong encryption, clear tracking, and protected settlement.",
     visual: "transfers",
   },
   {
     icon: "▤",
     title: "Virtual & Physical Cards",
     description:
-      "Choose virtual or physical cards to spend internationally and withdraw cash wherever supported.",
+      "Use virtual or physical cards to pay globally, withdraw cash, and manage spending in one place.",
     visual: "cards",
   },
   // {
@@ -158,13 +160,13 @@ const featureCards = [
   //     "Buy stocks, mutual funds, and treasury bills directly from the app using your preferred currency.",
   //   visual: "investments",
   // },
-  {
-    icon: "↝",
-    title: "Smart Routing",
-    description:
-      " Set your main payment source and add backup wallets so transactions never fail.",
-    visual: "routing",
-  },
+  // {
+  //   icon: "↝",
+  //   title: "Smart Routing",
+  //   description:
+  //     "Set a primary payment source and backup wallets so your transactions keep flowing without disruption.",
+  //   visual: "routing",
+  // },
 ] as const;
 
 type HistoryRange = "24h" | "7d" | "30d";
@@ -536,15 +538,21 @@ function FeatureVisual({
         </div>
 
         <div className="routing-row">
-  <span>◔</span>
-  <b>
-    Low-balance trigger
-    <small>Top up when balance drops</small>
-  </b>
-  <em>Set</em>
-</div>
-
-        
+          <span>◔</span>
+          <b>
+            Low-balance trigger
+            <small>Top up when balance drops</small>
+          </b>
+          <em>Set</em>
+        </div>
+        <div className="routing-row">
+          <span>☰</span>
+          <b>
+            Priority funding
+            <small>Use primary account first</small>
+          </b>
+          <em>Ready</em>
+        </div>
       </div>
     );
   }
@@ -785,6 +793,42 @@ function DownloadSection() {
 }
 
 function ContactSection() {
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    setStatus("sending");
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) throw new Error("Form submission failed");
+      form.reset();
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  const statusMessage = {
+    idle: "We typically respond within one business day.",
+    sending: "Sending…",
+    success: "Message sent — we’ll reach out soon.",
+    error: "Something went wrong. Please try again.",
+  }[status];
+
+  const statusClass =
+    status === "success"
+      ? "contact-form-status is-success"
+      : status === "error"
+        ? "contact-form-status is-error"
+        : "contact-form-status";
+
   return (
     <section
       id="contact"
@@ -800,7 +844,7 @@ function ContactSection() {
         </div>
         <form
           className="contact-form"
-          onSubmit={(event) => event.preventDefault()}
+          onSubmit={handleSubmit}
           aria-describedby="contact-status"
         >
           <div className="contact-form-row">
@@ -823,11 +867,16 @@ function ContactSection() {
             <textarea name="message" rows={5} required />
           </label>
           <div className="contact-form-actions">
-            <button className="contact-submit" type="submit" disabled>
-              Send Message <span aria-hidden="true">→</span>
+            <button
+              className="contact-submit"
+              type="submit"
+              disabled={status === "sending"}
+            >
+              {status === "sending" ? "Sending…" : "Send Message"}{" "}
+              <span aria-hidden="true">→</span>
             </button>
-            <p id="contact-status" role="status">
-              Message delivery isn’t connected yet.
+            <p id="contact-status" role="status" className={statusClass}>
+              {statusMessage}
             </p>
           </div>
         </form>

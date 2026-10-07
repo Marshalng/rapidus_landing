@@ -1472,14 +1472,14 @@ a:focus-visible {
   position: relative;
   min-width: 0;
   height: 680px;
-  overflow: hidden;
+  overflow: visible;
   border-radius: 20px;
   background: #f0f2f5;
 }
 .feature-card-copy {
   position: relative;
   z-index: 2;
-  padding: 42px 46px 0;
+  padding: 28px 46px 0;
 }
 .feature-icon {
   display: grid;
@@ -1493,21 +1493,22 @@ a:focus-visible {
   font-weight: 700;
 }
 .feature-card h3 {
-  margin: 24px 0 20px;
-  color: #333;
+  margin: 18px 0 12px;
+  color: #1f2937;
   font-size: 32px;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.1;
   letter-spacing: -0.03em;
 }
 .feature-card p {
   max-width: 455px;
   margin: 0;
-  color: #475367;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 28px;
+  color: #4b5563;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
   letter-spacing: -0.02em;
+  text-align: left;
 }
 .feature-visual {
   position: absolute;
@@ -1522,7 +1523,7 @@ a:focus-visible {
   right: auto;
   bottom: -18px;
   left: 50%;
-  padding: 40px 45px;
+  padding: 26px 45px 0;
   box-sizing: border-box;
   border-radius: 20px 20px 0 0;
   background: #fff;
@@ -1533,25 +1534,23 @@ a:focus-visible {
   align-items: center;
   justify-content: space-between;
   width: 388px;
-  height: 80px;
-  margin-bottom: 24px;
-  padding: 16px;
+  height: 74px;
+  margin: 0 0 14px;
+  padding: 14px 16px;
   box-sizing: border-box;
   border-radius: 16px;
   background: #f7f9fc;
+  transform: none;
 }
-.wallet-row:nth-child(2) {
-  margin-left: 18px;
-}
-.wallet-row:nth-child(3) {
-  margin-left: 46px;
-}
+.wallet-row:nth-child(2),
+.wallet-row:nth-child(3),
 .wallet-row:nth-child(4) {
-  margin-left: 62px;
+  margin-left: 0;
 }
 .wallet-row > strong {
   color: #333;
   font-size: 14px;
+  line-height: 1;
 }
 .wallet-currency {
   display: flex;
@@ -1810,15 +1809,21 @@ a:focus-visible {
   text-align: center;
 }
 .p2p-visual {
+  position: relative;
   height: 358px;
-  padding: 18px 22px 22px;
+  padding: 18px 22px 78px;
   box-sizing: border-box;
   border-radius: 20px 20px 0 0;
+  width: 93%;
   background: #fff;
+  overflow: visible;
+}
+.p2p-visual > *:first-child {
+  margin-left: 0;
 }
 .p2p-directions {
   display: flex;
-  width: 164px;
+  /* width: 164px; */
   height: 46px;
   padding: 4px;
   box-sizing: border-box;
@@ -1910,8 +1915,8 @@ a:focus-visible {
 }
 .p2p-create-offer {
   position: absolute;
-  right: 20px;
-  bottom: 16px;
+  right: 22px;
+  bottom: 22px;
   display: grid;
   width: 48px;
   height: 48px;
@@ -1979,7 +1984,7 @@ a:focus-visible {
 }
 .pin-canada {
   top: 90px;
-  right: -17%;
+  right: 0%;
 }
 .pin-china {
   top: -80px;
@@ -2140,6 +2145,17 @@ a:focus-visible {
   font-weight: 600;
   white-space: nowrap;
 }
+
+@media (min-width: 601px) {
+  .cards-capabilities {
+    gap: 18px;
+   left: 39%;
+  }
+
+  .cards-capabilities span {
+padding: 10px 40px;
+  }
+}
 .investment-visual {
   display: flex;
   align-items: flex-end;
@@ -2205,7 +2221,7 @@ a:focus-visible {
 }
 .routing-visual {
   width: 441px;
-  height: 552px;
+  /* height: 552px; */
   right: auto;
   bottom: -182px;
   left: 50%;
@@ -2258,29 +2274,115 @@ a:focus-visible {
   font-style: normal;
 }
 @media (min-width: 601px) {
-  .wallet-visual,
-  .topup-visual {
-    top: 208px;
+
+  .cards-physical-label {
+  position: absolute;
+  z-index: 1;
+  top: 20px;
+  left: 60%;
+  padding: 7px 11px;
+  border: 1px solid #d9e2e0;
+  border-radius: 999px;
+  color: #005046;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  transform: translateX(-50%);
+}
+  .feature-card {
+    overflow: visible;
+  }
+
+  .feature-visual {
+    left: auto;
     right: auto;
-    bottom: 0;
+    width: auto;
+  }
+
+  .wallet-visual {
     left: 50%;
-    width: min(479px, calc(100% - 48px));
-    height: auto;
+    right: auto;
+    top: 208px;
+    bottom: 0;
+    width: min(479px, calc(100% - 36px));
+    height: 61%;
+    margin-top: 5%;
     padding: 40px;
     border-radius: 24px 24px 0 0;
     transform: translateX(-50%);
   }
+
+  .exchange-visual {
+      margin-top: 2%;
+       left: 39px;
+    right: -30px;
+    width: 86%;
+    height: 61%;
+    padding: 18px 22px 78px;
+    width: min(479px, calc(100% - 36px));
+    bottom: 32px;
+  }
+
+  .p2p-visual {
+    margin-top: 2%;
+       left: 39px;
+    right: -30px;
+    width: 86%;
+    height: 61%;
+    padding: 18px 22px 78px;
+    width: min(479px, calc(100% - 36px));
+  }
+
+  .transfer-visual {
+    left: 18px;
+    right: 23%;
+    width: auto;
+    height: 358px;
+  }
+
+  .cards-visual {
+      left: 18px;
+    right: 25%;
+    width: auto;
+    height: 370px;
+    top: 37%;
+  }
+
+  .topup-visual {
+    left: 50%;
+    right: auto;
+    top: 208px;
+    bottom: 0;
+    width: min(479px, calc(100% - 36px));
+    height: 61%;
+    margin-top: 5%;
+    padding: 40px;
+    border-radius: 24px 24px 0 0;
+    transform: translateX(-50%);
+  }
+
+  .routing-visual {
+    left: 50%;
+    right: auto;
+    top: 208px;
+    bottom: 0;
+    width: min(479px, calc(100% - 36px));
+    /* height: 552px; */
+    padding: 40px;
+    border-radius: 24px 24px 0 0;
+    transform: translateX(-50%);
+  }
+
   .wallet-row {
     width: min(388px, 100%);
   }
-  .wallet-row:nth-child(2) {
-    width: min(388px, calc(100% - 18px));
-  }
-  .wallet-row:nth-child(3) {
-    width: min(388px, calc(100% - 46px));
-  }
-  .wallet-row:nth-child(4) {
-    width: min(388px, calc(100% - 62px));
+
+  .history-chart {
+    display: block;
+    width: 100%;
+    height: 139px;
+    margin-top: 5px;
+    overflow: visible;
   }
 }
 @media (max-width: 900px) {
@@ -2337,16 +2439,19 @@ a:focus-visible {
     line-height: 24px;
   }
   .feature-visual {
+    left: 4px;
+    right: -14%;
     transform: scale(0.78);
+    transform-origin: left center;
     /* transform-origin: bottom center; */
   }
   .wallet-visual {
     width: min(100%, 330px);
-    height: auto;
+    height: 57%;
     right: auto;
     bottom: 19px;
     left: 50%;
-    padding: 20px 14px 0;
+    padding: 33px 14px 0;
     transform: translateX(-50%);
   }
   .wallet-row {
@@ -2364,7 +2469,7 @@ a:focus-visible {
   .exchange-visual {
     right: 16px;
     left: 16px;
-    height: 344px;
+    height: 322px;
     padding: 20px 17px;
     transform: none;
   }
@@ -2379,8 +2484,8 @@ a:focus-visible {
     text-align: left;
   }
   .p2p-visual {
-    right: 16px;
-    left: 16px;
+    right: 12px;
+    left: 12px;
     height: 340px;
     padding: 16px 14px 20px;
     transform: none;
@@ -2675,6 +2780,20 @@ a:focus-visible {
   }
 }
 @media (max-width: 600px) {
+
+
+  
+  .routing-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 66px !important;
+  padding: 16px;
+  box-sizing: border-box;
+  border: 1px solid #f0f2f5;
+  border-radius: 16px;
+  color: #333;
+}
   .security-heading h2 {
     font-size: 36px;
   }
@@ -3532,6 +3651,12 @@ a:focus-visible {
   color: #667185;
   font-size: 12px;
   line-height: 1.4;
+}
+.contact-form-status.is-success {
+  color: #0e7a5f;
+}
+.contact-form-status.is-error {
+  color: #b42318;
 }
 @media (max-width: 760px) {
   .contact-container {
