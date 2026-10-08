@@ -747,8 +747,7 @@ function DownloadSection() {
           your money today
         </h2>
         <p>
-          Download the app and take full control of your spending, saving, and
-          investing in minutes.
+          Download the app and take full control of your spending and saving in minutes.
         </p>
         <div className="store-buttons">
           <a
@@ -1018,7 +1017,7 @@ function SecuritySection() {
       <div className="security-container">
         <div className="security-heading">
           <h2 id="security-title">
-            Your Money Stay
+            Your Money Stays
             <br />
             Safe, Always
           </h2>
@@ -1182,7 +1181,7 @@ export default function HomeRoute() {
             Trade at your rate.
           </h1>
           <p>
-            Exchange, invest, spend, and manage multiple
+            Exchange, spend, and manage multiple
             <br className="desktop-break" /> currencies from one app.
           </p>
           <div className="hero-actions">
@@ -1228,8 +1227,7 @@ export default function HomeRoute() {
           </h2>
           <p>
             Hold multiple currencies, exchange at your preferred rates, send and
-            receive funds fast, spend securely, and invest with clear, simple
-            control.
+            receive funds fast, and spend securely.
           </p>
           <a className="button currency-button" href="#get-started">
             Get Started Free <span className="currency-arrow">→</span>
