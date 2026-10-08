@@ -114,7 +114,7 @@ function VirtualCard() {
 const featureCards = [
   {
     icon: "▣",
-    title: "Multi currency wallets",
+    title: "Multi-currency wallets",
     description:
       "Hold and manage multiple currencies in one secure wallet without opening separate bank accounts.",
     visual: "wallets",
@@ -127,7 +127,7 @@ const featureCards = [
   },
   {
     icon: "⇄",
-    title: "Real-Time Currency Exchange",
+    title: "Real-time Currency Exchange",
     description:
       "Check live exchange rates and estimate conversions instantly before you send or spend.",
     visual: "exchange",
@@ -591,7 +591,7 @@ const howItWorksSteps = [
   ],
   [
     "Create your wallets",
-    "Open multi currency wallets to hold, manage, and organize your money in one place.",
+    "Open multi-currency wallets to hold, manage, and organize your money in one place.",
   ],
   [
     "Trade or convert",
