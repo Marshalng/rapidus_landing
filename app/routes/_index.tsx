@@ -141,7 +141,7 @@ const featureCards = [
   },
   {
     icon: "♜",
-    title: "Secure transfers",
+    title: "Secure Transfers",
     description:
       "Send money fast with strong encryption, clear tracking, and protected settlement.",
     visual: "transfers",
